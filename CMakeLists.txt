@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(sfml_project_whatever
         main.cpp
+        GLOBALS.hpp
+        CoolStuff.hpp
 )
 
 ############# SFML #############
