@@ -11,9 +11,20 @@
 #define PONG_SIZE 20
 
 void movementAI(sf::Vector2f& playerPos, float& playerVel) {
-            if (playerPos.y < 5 || playerPos.y + PADDLE_H > SCREEN_H - 5)
-                playerVel *= -1;
-            playerPos.y += playerVel;
+    if (playerPos.y < 5 || playerPos.y + PADDLE_H > SCREEN_H - 5)
+        playerVel *= -1;
+    playerPos.y += playerVel;
+}
+
+void movementPong(sf::RectangleShape& pong, float& xOrigin, float& yOrigin,
+                  sf::RectangleShape& p1, sf::RectangleShape& p2,
+                  float& pongVelX, float& pongVelY) {
+    if (pong.getGlobalBounds().intersects(p1.getGlobalBounds()) || pong.getGlobalBounds().intersects(p2.getGlobalBounds()))
+        pongVelX *= -1;
+    if (yOrigin < 5 || yOrigin + PONG_SIZE > SCREEN_H - 5)
+        pongVelY *= -1;
+    xOrigin -= pongVelX;
+    yOrigin -= pongVelY;
 }
 
 int main() {
@@ -33,7 +44,7 @@ int main() {
     p2.setPosition(p2Pos);
     p2.setSize(sf::Vector2f(PADDLE_W, PADDLE_H));
     p2.setFillColor(sf::Color::White);
-    float p2Vel = 7.f;
+    float p2Vel = 4.f;
 
     // PONG BALL
     sf::RectangleShape pong;
@@ -41,8 +52,8 @@ int main() {
     pong.setPosition(pongPos);
     pong.setSize(sf::Vector2f(PONG_SIZE, PONG_SIZE));
     pong.setFillColor(sf::Color::White);
-    float pongVelX = 7.f;
-    float pongVelY = 7.f;
+    float pongVelX = 5.f;
+    float pongVelY = 5.f;
 
 
     window.setFramerateLimit(60);
@@ -55,16 +66,20 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 window.close();
-            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-                    && p1Pos.y > 5)
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && p1Pos.y > 5)
                 p1Pos.y -= p1Vel;
-            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-                    && p1Pos.y + PADDLE_H < SCREEN_H - 5)
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && p1Pos.y + PADDLE_H < SCREEN_H - 5)
                 p1Pos.y += p1Vel;
+            // Comment-out the next four lines if you want to use A.I. for Player 2.
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::O) && p2Pos.y > 5)
+                p2Pos.y -= p2Vel;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::L) && p2Pos.y + PADDLE_H < SCREEN_H - 5)
+                p2Pos.y += p2Vel;
         }
         // LOGIC
         // -----
-        movementAI(p2Pos, p2Vel);
+        // movementAI(p2Pos, p2Vel);
+        movementPong(pong, pongPos.x, pongPos.y, p1, p2, pongVelX, pongVelY);
         // UPDATE
         // ------
         p1.setPosition(p1Pos);
