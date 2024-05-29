@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 // #include "GLOBALS.hpp"
 
-
 #define SCREEN_W 1000
 #define SCREEN_H 600
 
@@ -9,6 +8,10 @@
 #define PADDLE_H 120
 
 #define PONG_SIZE 20
+
+sf::Vector2f getRectCenterCoord(sf::RectangleShape rect) {
+    // return rect.getPoint();
+}
 
 void movementAI(sf::Vector2f& playerPos, float& playerVel) {
     if (playerPos.y < 5 || playerPos.y + PADDLE_H > SCREEN_H - 5)
@@ -55,8 +58,10 @@ int main() {
     float pongVelX = 5.f;
     float pongVelY = 5.f;
 
-
+    // GAME CONFIG
+    // -----------
     window.setFramerateLimit(60);
+
     // GAME LOOP
     // ---------
     while (window.isOpen()) {
@@ -70,15 +75,15 @@ int main() {
                 p1Pos.y -= p1Vel;
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && p1Pos.y + PADDLE_H < SCREEN_H - 5)
                 p1Pos.y += p1Vel;
-            // Comment-out the next four lines if you want to use A.I. for Player 2.
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::O) && p2Pos.y > 5)
-                p2Pos.y -= p2Vel;
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::L) && p2Pos.y + PADDLE_H < SCREEN_H - 5)
-                p2Pos.y += p2Vel;
+            // // Comment-out the next four lines if you want to use A.I. for Player 2.
+            // if (sf::Keyboard::isKeyPressed(sf::Keyboard::O) && p2Pos.y > 5)
+            //     p2Pos.y -= p2Vel;
+            // if (sf::Keyboard::isKeyPressed(sf::Keyboard::L) && p2Pos.y + PADDLE_H < SCREEN_H - 5)
+            //     p2Pos.y += p2Vel;
         }
         // LOGIC
         // -----
-        // movementAI(p2Pos, p2Vel);
+        movementAI(p2Pos, p2Vel);
         movementPong(pong, pongPos.x, pongPos.y, p1, p2, pongVelX, pongVelY);
         // UPDATE
         // ------
