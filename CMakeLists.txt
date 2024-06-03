@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.28)
-project(sfml_project_whatever)
+project(pong-from-wish)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(sfml_project_whatever
+add_executable(pong-from-wish
         main.cpp
         GLOBALS.hpp
         CoolStuff.hpp
@@ -19,7 +19,7 @@ find_package(SFML COMPONENTS REQUIRED
         audio
         network
 )
-target_link_libraries(sfml_project_whatever
+target_link_libraries(pong-from-wish
         sfml-system
         sfml-window
         sfml-graphics

@@ -1,5 +1,3 @@
-# sfml-project-whatever
+# pong-from-wish
 
-Project made to facilitate free experimentation with SFML.
-
-May change into something else later.
+SFML version of Pong (originally from the Harvard CS50 game dev. course)
