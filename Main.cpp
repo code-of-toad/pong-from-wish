@@ -4,7 +4,30 @@
 #define SCREEN_H 720
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Pong From Wish");
+    // SETUP: SKELETON
+    // ---------------
+    sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H),
+                            "Pong From Wish",
+                            sf::Style::Titlebar | sf::Style::Close);
+    window.setVerticalSyncEnabled(true);
+
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 0;
+
+    sf::Font font;
+    if (!font.loadFromFile("./resources/fonts/font.ttf")) {
+        return EXIT_FAILURE;
+    }
+
+    sf::Text text;
+    text.setFont(font);
+    text.setString("Pong From Wish");
+    text.setCharacterSize(50);
+    text.setFillColor(sf::Color(200, 200, 200, 200));
+    text.setStyle(sf::Text::Bold);
+    sf::FloatRect bounds = text.getLocalBounds();
+    text.setOrigin(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
+
     // SETUP: GAME ELEMENTS + ENTITIES
     // -------------------------------
 
@@ -19,11 +42,15 @@ int main() {
         }
         // GAME LOGIC/UPDATE
         // -----------------
-
+        text.setPosition(sf::Vector2f(window.getSize().x / 2.f, window.getSize().y / 2.f));
 
         // RENDER
         // ------
         window.clear();
+
+        window.draw(text);
+
+        window.display();
     }
 
     return EXIT_SUCCESS;
