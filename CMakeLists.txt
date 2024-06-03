@@ -4,9 +4,7 @@ project(pong-from-wish)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(pong-from-wish
-        main.cpp
-        GLOBALS.hpp
-        CoolStuff.hpp
+        Main.cpp
 )
 
 ############# SFML #############
