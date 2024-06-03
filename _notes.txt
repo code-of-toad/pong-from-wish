@@ -1,0 +1,13 @@
+Lessons:
+--------
+
+1. By default, SFML uses "bilinear filtering" for textures.
+   This can make pixel art & sharp-edged graphics look blurry when scaled/transformed.
+
+   To get a sharp, pixel-perfect look for your pixel art and fonts in SFML,
+   you'll need to change the texture's filtering mode to nearest neighbor filtering.
+
+   This is especially important when working with pixel art or low-resolution textures
+   that you want to maintain a crisp appearance.
+
+2.
