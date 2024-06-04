@@ -46,6 +46,14 @@ int main() {
 
     ball.setPosition(sf::Vector2f(window.getSize().x / 2.f, window.getSize().y / 2.f));
 
+    // paddle (left)
+    sf::RectangleShape paddleLeft(sf::Vector2f(20.f, 120.f));
+    paddleLeft.setFillColor(colorEntities);
+    sf::FloatRect bounds3 = paddleLeft.getLocalBounds();
+    paddleLeft.setOrigin(bounds3.left, bounds3.top + bounds3.height / 2);
+
+    paddleLeft.setPosition(sf::Vector2f(20.f, window.getSize().y / 2.f));
+
     while (window.isOpen()) {
         // EVENT HANDLER
         // -------------
@@ -64,6 +72,7 @@ int main() {
 
         window.draw(text1);
         window.draw(ball);
+        window.draw(paddleLeft);
 
         window.display();
     }
