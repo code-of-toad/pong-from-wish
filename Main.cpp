@@ -38,6 +38,14 @@ int main() {
 
     text1.setPosition(sf::Vector2f(window.getSize().x / 2.f, 20.f));
 
+    // ball
+    sf::RectangleShape ball(sf::Vector2f(18.f, 18.f));
+    ball.setFillColor(colorEntities);
+    sf::FloatRect bounds2 = ball.getLocalBounds();
+    ball.setOrigin(bounds2.left + bounds2.width / 2, bounds2.top + bounds2.height / 2);
+
+    ball.setPosition(sf::Vector2f(window.getSize().x / 2.f, window.getSize().y / 2.f));
+
     while (window.isOpen()) {
         // EVENT HANDLER
         // -------------
@@ -55,6 +63,7 @@ int main() {
         window.clear();
 
         window.draw(text1);
+        window.draw(ball);
 
         window.display();
     }
