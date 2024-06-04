@@ -14,6 +14,7 @@ int main() {
     // ---------------
     sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Pong From Wish",
                             sf::Style::Titlebar | sf::Style::Close);
+    // window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
 
     sf::ContextSettings settings;
