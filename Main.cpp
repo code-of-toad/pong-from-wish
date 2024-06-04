@@ -39,7 +39,7 @@ int main() {
     text1.setPosition(sf::Vector2f(window.getSize().x / 2.f, 20.f));
 
     // ball
-    sf::RectangleShape ball(sf::Vector2f(18.f, 18.f));
+    sf::RectangleShape ball(sf::Vector2f(15.f, 15.f));
     ball.setFillColor(colorEntities);
     sf::FloatRect bounds2 = ball.getLocalBounds();
     ball.setOrigin(bounds2.left + bounds2.width / 2, bounds2.top + bounds2.height / 2);
@@ -47,12 +47,20 @@ int main() {
     ball.setPosition(sf::Vector2f(window.getSize().x / 2.f, window.getSize().y / 2.f));
 
     // paddle (left)
-    sf::RectangleShape paddleLeft(sf::Vector2f(20.f, 120.f));
+    sf::RectangleShape paddleLeft(sf::Vector2f(17.f, 120.f));
     paddleLeft.setFillColor(colorEntities);
     sf::FloatRect bounds3 = paddleLeft.getLocalBounds();
     paddleLeft.setOrigin(bounds3.left, bounds3.top + bounds3.height / 2);
 
     paddleLeft.setPosition(sf::Vector2f(20.f, window.getSize().y / 2.f));
+
+    // paddle (right)
+    sf::RectangleShape paddleRight(sf::Vector2f(17.f, 120.f));
+    paddleRight.setFillColor(colorEntities);
+    sf::FloatRect bounds4 = paddleRight.getLocalBounds();
+    paddleRight.setOrigin(bounds4.left + bounds4.width, bounds4.top + bounds4.height / 2);
+
+    paddleRight.setPosition(sf::Vector2f(window.getSize().x - 20.f, window.getSize().y / 2.f));
 
     while (window.isOpen()) {
         // EVENT HANDLER
@@ -73,6 +81,7 @@ int main() {
         window.draw(text1);
         window.draw(ball);
         window.draw(paddleLeft);
+        window.draw(paddleRight);
 
         window.display();
     }
