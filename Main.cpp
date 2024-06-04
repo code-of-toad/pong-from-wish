@@ -3,33 +3,40 @@
 #define SCREEN_W 1280
 #define SCREEN_H 720
 
+
 int main() {
+    // VARIABLES
+    // ---------
+    sf::Color colorText(150, 150, 150, 200);
+    sf::Color colorEntities(200, 200, 200, 200);
+
     // SETUP: SKELETON
     // ---------------
-    sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H),
-                            "Pong From Wish",
+    sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Pong From Wish",
                             sf::Style::Titlebar | sf::Style::Close);
     window.setVerticalSyncEnabled(true);
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 0;
 
-    sf::Font font;
-    if (!font.loadFromFile("./resources/fonts/font.ttf")) {
+    sf::Font mainFont;
+    if (!mainFont.loadFromFile("./resources/fonts/font.ttf")) {
         return EXIT_FAILURE;
     }
 
-    sf::Text text;
-    text.setFont(font);
-    text.setString("Pong From Wish");
-    text.setCharacterSize(50);
-    text.setFillColor(sf::Color(200, 200, 200, 200));
-    text.setStyle(sf::Text::Bold);
-    sf::FloatRect bounds = text.getLocalBounds();
-    text.setOrigin(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
-
     // SETUP: GAME ELEMENTS + ENTITIES
     // -------------------------------
+    // text
+    sf::Text text1;
+    text1.setFont(mainFont);
+    text1.setString("Welcome to Pong From Wish!");
+    text1.setCharacterSize(40);
+    text1.setFillColor(colorText);
+    text1.setStyle(sf::Text::Bold);
+    sf::FloatRect bounds1 = text1.getLocalBounds();
+    text1.setOrigin(bounds1.left + bounds1.width / 2, bounds1.top);
+
+    text1.setPosition(sf::Vector2f(window.getSize().x / 2.f, 20.f));
 
     while (window.isOpen()) {
         // EVENT HANDLER
@@ -42,13 +49,12 @@ int main() {
         }
         // GAME LOGIC/UPDATE
         // -----------------
-        text.setPosition(sf::Vector2f(window.getSize().x / 2.f, window.getSize().y / 2.f));
 
         // RENDER
         // ------
         window.clear();
 
-        window.draw(text);
+        window.draw(text1);
 
         window.display();
     }
