@@ -29,7 +29,7 @@ int main() {
     // text
     sf::Text text1;
     text1.setFont(mainFont);
-    text1.setString("Welcome to Pong From Wish!");
+    text1.setString("Pong From Wish");
     text1.setCharacterSize(40);
     text1.setFillColor(colorText);
     text1.setStyle(sf::Text::Bold);
@@ -71,8 +71,24 @@ int main() {
                 window.close();
             }
         }
-        // GAME LOGIC/UPDATE
-        // -----------------
+        // INPUT HANDLING
+        // --------------
+        // paddle (left)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            if (paddleLeft.getGlobalBounds().top > 0)
+                paddleLeft.move(0, -10.f);
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            if (paddleLeft.getGlobalBounds().top + paddleLeft.getGlobalBounds().height < window.getSize().y)
+                paddleLeft.move(0, 10.f);
+        }
+        // paddle (right)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            if (paddleRight.getGlobalBounds().top > 0)
+                paddleRight.move(0, -10.f);
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+            if (paddleRight.getGlobalBounds().top + paddleRight.getGlobalBounds().height < window.getSize().y)
+                paddleRight.move(0, 10.f);
+        }
 
         // RENDER
         // ------
