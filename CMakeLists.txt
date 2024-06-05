@@ -9,6 +9,7 @@ add_executable(pong-from-wish
         Paddle.hpp
         Ball.cpp
         Ball.hpp
+        GameState.hpp
 )
 
 ############# SFML #############
