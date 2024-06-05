@@ -14,9 +14,11 @@ class Paddle {
     float              _dy;
 public:
     Paddle(Side side, const sf::RenderWindow& window);
-    void moveUp(float dt);
-    void moveDown(float dt);
-    void draw(sf::RenderWindow& window) const;
+    void               moveUp  (float dt);
+    void               moveDown(float dt);
+    void               draw    (sf::RenderWindow& window) const;
+    Side               getSide () const;
+    sf::RectangleShape getRect () const;
 };
 
 #endif //PADDLE_HPP

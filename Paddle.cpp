@@ -39,3 +39,11 @@ void Paddle::moveDown(const float dt) {
 void Paddle::draw(sf::RenderWindow& window) const {
     window.draw(_rect);
 }
+
+Side Paddle::getSide() const {
+    return _side;
+}
+
+sf::RectangleShape Paddle::getRect() const {
+    return _rect;
+}
