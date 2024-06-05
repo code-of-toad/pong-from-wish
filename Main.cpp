@@ -21,7 +21,7 @@ int main() {
             }
         }
         sf::Time dt = clock.restart();
-        std::cout << dt.asSeconds() << std::endl;
+        std::cout << "DEBUGGGGGGGG:  " << dt.asSeconds() << std::endl;
 
         window.clear();
 
