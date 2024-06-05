@@ -5,13 +5,15 @@
 #include "Paddle.hpp"
 
 class Ball {
-    float _x      = 0;
-    float _y      = 0;
-    int   _width  = 0;
-    int   _height = 0;
+    sf::RectangleShape _rect;
+    float              _dx;
+    float              _dy;
+
 public:
-    Ball();
-    bool collides(Paddle paddle);
+    explicit Ball(const sf::RenderWindow& window);
+    void move(float dt);
+    void draw(sf::RenderWindow& window) const;
+    bool collides(const Paddle& paddle);
     bool reset();
 };
 

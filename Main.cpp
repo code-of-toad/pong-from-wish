@@ -1,6 +1,5 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "GameState.hpp"
 #include "Paddle.hpp"
 #include "Ball.hpp"
 
@@ -12,8 +11,12 @@ int main() {
                             sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(60);
 
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 0;
+
     Paddle paddleLeft(LEFT, window);
     Paddle paddleRight(RIGHT, window);
+    Ball ball(window);
 
     sf::Clock clock;
     while (window.isOpen()) {
@@ -28,7 +31,6 @@ int main() {
         // INPUT HANDLER
         // -------------
         float dt = clock.restart().asSeconds();
-        // float dt = 1.f;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             paddleLeft.moveUp(dt);
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
@@ -39,11 +41,18 @@ int main() {
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             paddleRight.moveDown(dt);
         }
-
+        // GAME LOGIC + UPDATE
+        // -------------------
+        ball.move(dt);
+        if (!ball.collides(paddleLeft))
+            ball.collides(paddleRight);
+        // RENDER
+        // ------
         window.clear();
 
         paddleLeft.draw(window);
         paddleRight.draw(window);
+        ball.draw(window);
 
         window.display();
     }
