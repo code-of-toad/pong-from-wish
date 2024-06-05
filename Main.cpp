@@ -12,18 +12,38 @@ int main() {
                             sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(60);
 
+    Paddle paddleLeft(LEFT, window);
+    Paddle paddleRight(RIGHT, window);
+
     sf::Clock clock;
     while (window.isOpen()) {
+        // EVENT HANDLER
+        // -------------
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 window.close();
             }
         }
-        sf::Time dt = clock.restart();
-        std::cout << "DEBUGGGGGGGG:  " << dt.asSeconds() << std::endl;
+        // INPUT HANDLER
+        // -------------
+        float dt = clock.restart().asSeconds();
+        // float dt = 1.f;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            paddleLeft.moveUp(dt);
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            paddleLeft.moveDown(dt);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            paddleRight.moveUp(dt);
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+            paddleRight.moveDown(dt);
+        }
 
         window.clear();
+
+        paddleLeft.draw(window);
+        paddleRight.draw(window);
 
         window.display();
     }
