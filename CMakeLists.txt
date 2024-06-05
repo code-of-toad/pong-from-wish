@@ -5,6 +5,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(pong-from-wish
         Main.cpp
+        Paddle.cpp
+        Paddle.hpp
+        Ball.cpp
+        Ball.hpp
 )
 
 ############# SFML #############
