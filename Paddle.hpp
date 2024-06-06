@@ -12,6 +12,8 @@ class Paddle {
     sf::RectangleShape _rect;
     Side               _side;
     float              _dy;
+    int                _score;
+    bool               _loser;
 public:
     Paddle(Side side, const sf::RenderWindow& window);
     void               moveUp  (float dt);
@@ -19,6 +21,11 @@ public:
     void               draw    (sf::RenderWindow& window) const;
     Side               getSide () const;
     sf::RectangleShape getRect () const;
+    void               setLoser(bool isLoser=true);
+    bool               isLoser() const;
+    int                scoreUp();
+    int                getScore() const;
+    void               reset(const sf::RenderWindow& window);
 };
 
 #endif //PADDLE_HPP

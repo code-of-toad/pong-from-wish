@@ -11,10 +11,12 @@ class Ball {
 
 public:
     explicit Ball(const sf::RenderWindow& window);
-    void move(float dt);
-    void draw(sf::RenderWindow& window) const;
-    bool collides(const Paddle& paddle);
-    bool reset();
+    void               move(float dt);
+    void               draw(sf::RenderWindow& window) const;
+    void               reset(const sf::RenderWindow& window);
+    bool               collides(const Paddle& paddle);
+    sf::RectangleShape getRect() const;
+    void               setDirection(Side side);
 };
 
 #endif //BALL_HPP
