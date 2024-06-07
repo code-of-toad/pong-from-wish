@@ -5,11 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(pong-from-wish
         Main.cpp
+        GameState.hpp
         Paddle.cpp
         Paddle.hpp
         Ball.cpp
         Ball.hpp
-        GameState.hpp
 )
 
 ############# SFML #############

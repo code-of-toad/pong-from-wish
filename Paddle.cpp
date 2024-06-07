@@ -2,7 +2,7 @@
 
 Paddle::Paddle(const Side side, const sf::RenderWindow& window) {
     _side  = side;
-    _dy    = 680.f;
+    _dy    = 880.f;
     _score = 0;
     _rect  = sf::RectangleShape(sf::Vector2f(18.f, 120.f));
 
