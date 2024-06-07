@@ -23,7 +23,6 @@ void initText(sf::Text& text,
               const Position origin) {
     text.setFont(font);
     text.setCharacterSize(size);
-    // text.setFillColor(sf::Color(200, 200, 200, 200));
     text.setStyle(style);
     sf::FloatRect bounds = text.getLocalBounds();
     if (origin == TOP_CENTER) {
