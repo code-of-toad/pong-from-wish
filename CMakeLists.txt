@@ -3,7 +3,7 @@ project(pong-from-wish)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(pong-from-wish
+add_executable(pong-from-wish WIN32
         Main.cpp
         GameState.hpp
         Paddle.cpp
