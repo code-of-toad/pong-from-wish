@@ -16,7 +16,7 @@ Ball::Ball(const sf::RenderWindow& window) {
     _dx   = -900.f;
     _dy   = -randVerticalSpeed();
     _rect = sf::RectangleShape(sf::Vector2f(16.f, 16.f));
-    _rect.setFillColor(sf::Color(255, 100, 100, 200));  // COME BACK LATERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+    _rect.setFillColor(sf::Color(255, 100, 100));  // COME BACK LATERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
     sf::FloatRect bounds = _rect.getLocalBounds();
     _rect.setOrigin(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
     _rect.setPosition(sf::Vector2f(window.getSize().x / 2.f, window.getSize().y / 2.f));

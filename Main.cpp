@@ -51,9 +51,10 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Pong From Wish",
                             sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
     // SETTINGS
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 0;
+    // settings.antialiasingLevel = 0;
     // FONT
     sf::Font mainFont;
     if (!mainFont.loadFromFile("./resources/fonts/font.ttf")) {
@@ -73,6 +74,39 @@ int main() {
     instrxnText.setFillColor(sf::Color(200, 200, 200, 200));
     initText(instrxnText, mainFont, 25, sf::Text::Bold, TOP_CENTER);
     instrxnText.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2 + 20));
+
+    sf::Text scoreTextLeft;
+    scoreTextLeft.setFillColor(sf::Color(100, 100, 100, 100));
+    initText(scoreTextLeft, mainFont, 125, sf::Text::Bold, MID_RIGHT);
+    scoreTextLeft.setPosition(sf::Vector2f(window.getSize().x / 2 - 117, window.getSize().y / 2 - 85));
+
+    sf::Text scoreTextRight;
+    scoreTextRight.setFillColor(sf::Color(100, 100, 100, 100));
+    initText(scoreTextRight, mainFont, 125, sf::Text::Bold, MID_LEFT);
+    scoreTextRight.setPosition(sf::Vector2f(window.getSize().x / 2 + 53, window.getSize().y / 2 - 85));
+
+    sf::Text turnText;
+    turnText.setFillColor(sf::Color(200, 200, 200, 200));
+    initText(turnText, mainFont, 45, sf::Text::Bold, TOP_CENTER);
+    turnText.setPosition(sf::Vector2f(window.getSize().x / 2 - 173, 30));
+
+    sf::Text serveText;
+    serveText.setString("Press SPACE to serve");
+    serveText.setFillColor(sf::Color(100, 100, 100, 100));
+    initText(serveText, mainFont, 25, sf::Text::Bold, TOP_CENTER);
+    serveText.setPosition(sf::Vector2f(window.getSize().x / 2,window.getSize().y / 2 + 80));
+
+    sf::Text gameoverText;
+    gameoverText.setString("Player # Wins!");
+    gameoverText.setFillColor(sf::Color(200, 200, 200, 200));
+    initText(gameoverText, mainFont, 95, sf::Text::Bold, TOP_CENTER);
+    gameoverText.setPosition(sf::Vector2f(window.getSize().x / 2 + 8,window.getSize().y / 2 - 135));
+
+    sf::Text restartText;
+    restartText.setString("ENTER: Restart     ESC: Exit Game");
+    restartText.setFillColor(sf::Color(200, 200, 200, 200));
+    initText(restartText, mainFont, 25, sf::Text::Bold, TOP_CENTER);
+    restartText.setPosition(sf::Vector2f(window.getSize().x / 2,window.getSize().y / 2 + 80));
     // OBJECTS
     Paddle paddleLeft(LEFT, window);
     Paddle paddleRight(RIGHT, window);
@@ -110,10 +144,18 @@ int main() {
                     window.close();
             }
 
-            if (paddleLeft.isLoser())
+            scoreTextLeft.setString(std::to_string(paddleLeft.getScore()));
+            scoreTextRight.setString(std::to_string(paddleRight.getScore()));
+
+            ball.reset(window);
+
+            if (paddleLeft.isLoser()) {
                 ball.setDirection(LEFT);
-            else if (paddleRight.isLoser())
+                turnText.setString("Player 1 serve");
+            } else if (paddleRight.isLoser()) {
                 ball.setDirection(RIGHT);
+                turnText.setString("Player 2 serve");
+            }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
                 gameState = PLAY;
@@ -121,6 +163,11 @@ int main() {
             clock.restart();
 
             window.clear();
+
+            window.draw(turnText);
+            window.draw(serveText);
+            window.draw(scoreTextLeft);
+            window.draw(scoreTextRight);
 
             paddleLeft.draw(window);
             paddleRight.draw(window);
@@ -160,11 +207,10 @@ int main() {
             if (ball.getRect().getGlobalBounds().left <= 0) {
                 paddleLeft.setLoser();
                 paddleRight.setLoser(false);
-                ball.reset(window);
-                if (paddleLeft.scoreUp() == MAX_SCORE) {
-                    paddleLeft.reset(window);
-                    paddleRight.reset(window);
-                    window.clear();
+                if (paddleRight.scoreUp() == MAX_SCORE) {
+                    gameoverText.setString("Player 2 wins!");
+                    scoreTextLeft.setString(std::to_string(paddleLeft.getScore()));
+                    scoreTextRight.setString(std::to_string(paddleRight.getScore()));
                     gameState = DONE;
                 } else {
                     gameState = SERVE;
@@ -177,11 +223,10 @@ int main() {
                            >= window.getSize().x) {
                 paddleLeft.setLoser(false);
                 paddleRight.setLoser();
-                ball.reset(window);
-                if (paddleRight.scoreUp() == MAX_SCORE) {
-                    paddleRight.reset(window);
-                    paddleLeft.reset(window);
-                    window.clear();
+                if (paddleLeft.scoreUp() == MAX_SCORE) {
+                    gameoverText.setString("Player 1 wins!");
+                    scoreTextLeft.setString(std::to_string(paddleLeft.getScore()));
+                    scoreTextRight.setString(std::to_string(paddleRight.getScore()));
                     gameState = DONE;
                 } else {
                     gameState = SERVE;
@@ -195,6 +240,9 @@ int main() {
             // RENDER
             // ------
             window.clear();
+
+            window.draw(scoreTextLeft);
+            window.draw(scoreTextRight);
 
             paddleLeft.draw(window);
             paddleRight.draw(window);
@@ -211,12 +259,24 @@ int main() {
                     window.close();
                 }
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+                paddleLeft.reset(window);
+                scoreTextLeft.setString("0");
+
+                paddleRight.reset(window);
+                scoreTextRight.setString("0");
+
                 gameState = SERVE;
+            }
 
             window.clear();
 
-
+            window.draw(scoreTextLeft);
+            window.draw(scoreTextRight);
+            window.draw(gameoverText);
+            window.draw(restartText);
+            paddleLeft.draw(window);
+            paddleRight.draw(window);
 
             window.display();
         }

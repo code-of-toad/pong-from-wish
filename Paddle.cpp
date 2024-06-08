@@ -6,7 +6,7 @@ Paddle::Paddle(const Side side, const sf::RenderWindow& window) {
     _score = 0;
     _rect  = sf::RectangleShape(sf::Vector2f(18.f, 120.f));
 
-    _rect.setFillColor(sf::Color(200, 200, 200, 200));
+    _rect.setFillColor(sf::Color(200, 200, 200));
     sf::FloatRect bounds = _rect.getLocalBounds();
     if (side == LEFT) {
         _loser = true;
