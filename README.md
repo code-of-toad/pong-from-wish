@@ -1,3 +1,5 @@
-# pong-from-wish
+# PONG From Wish
 
-SFML version of Pong (originally from the Harvard CS50 game dev. course)
+This is my own two-player version of the classic game <b>Pong</b>.
+
+After download/installation, simply follow the instructions on screen to play.
