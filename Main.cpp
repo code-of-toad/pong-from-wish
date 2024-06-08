@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Paddle.hpp"
 #include "Ball.hpp"
 #include "GameState.hpp"
@@ -47,19 +48,50 @@ void initText(sf::Text& text,
 }
 
 int main() {
+    // AUDIO
+    sf::SoundBuffer bufferPaddleHit;
+    if (!bufferPaddleHit.loadFromFile("./resources/sounds/paddle_hit.wav")) {
+        std::cerr << "Failed to load sound effect `paddle_hit.wav`" << std::endl;
+        return EXIT_FAILURE;
+    }
+    sf::Sound soundPaddleHit;
+    soundPaddleHit.setBuffer(bufferPaddleHit);
+
+    sf::SoundBuffer bufferScore;
+    if (!bufferScore.loadFromFile("./resources/sounds/score.wav")) {
+        std::cerr << "Failed to load sound effect `score.wav`" << std::endl;
+        return EXIT_FAILURE;
+    }
+    sf::Sound soundScore;
+    soundScore.setBuffer(bufferScore);
+    soundScore.setVolume(70);
+
+    sf::SoundBuffer bufferWallHit;
+    if (!bufferWallHit.loadFromFile("./resources/sounds/wall_hit.wav")) {
+        std::cerr << "Failed to load sound effect `wall_hit.wav`" << std::endl;
+        return EXIT_FAILURE;
+    }
+    sf::Sound soundWallHit;
+    soundWallHit.setBuffer(bufferWallHit);
+
     // WINDOW
     sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Pong From Wish",
                             sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
+    sf::RectangleShape virtualWindow(sf::Vector2f(SCREEN_W, SCREEN_H));
+    virtualWindow.setFillColor(sf::Color(15, 15, 15));
+
     // SETTINGS
     sf::ContextSettings settings;
     // settings.antialiasingLevel = 0;
+
     // FONT
     sf::Font mainFont;
     if (!mainFont.loadFromFile("./resources/fonts/font.ttf")) {
         return EXIT_FAILURE;
     }
+
     // TEXT
     sf::Text titleText;
     titleText.setString("Pong From Wish");
@@ -107,13 +139,16 @@ int main() {
     restartText.setFillColor(sf::Color(200, 200, 200, 200));
     initText(restartText, mainFont, 25, sf::Text::Bold, TOP_CENTER);
     restartText.setPosition(sf::Vector2f(window.getSize().x / 2,window.getSize().y / 2 + 80));
+
     // OBJECTS
     Paddle paddleLeft(LEFT, window);
     Paddle paddleRight(RIGHT, window);
     Ball ball(window);
+
     // GAME STATE
     GameState gameState = START;
-    // CLOCK
+
+    // MAIN LOOP
     sf::Clock clock;
     while (window.isOpen()) {
         if (gameState == START) {
@@ -123,13 +158,16 @@ int main() {
             while (window.pollEvent(event)) {
                 if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                     window.close();
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+                    soundScore.play();
                     gameState = SERVE;
+                }
             }
             clock.restart();
 
             window.clear();
 
+            window.draw(virtualWindow);
             window.draw(titleText);
             window.draw(instrxnText);
 
@@ -164,6 +202,7 @@ int main() {
 
             window.clear();
 
+            window.draw(virtualWindow);
             window.draw(turnText);
             window.draw(serveText);
             window.draw(scoreTextLeft);
@@ -199,12 +238,13 @@ int main() {
             }
             // GAME LOGIC + UPDATE
             // -------------------
-            ball.move(dt);
+            ball.move(dt, soundWallHit);
 
-            if (!ball.collides(paddleLeft))
-                ball.collides(paddleRight);
+            if (ball.collides(paddleLeft) || ball.collides(paddleRight))
+                soundPaddleHit.play();
 
             if (ball.getRect().getGlobalBounds().left <= 0) {
+                soundScore.play();
                 paddleLeft.setLoser();
                 paddleRight.setLoser(false);
                 if (paddleRight.scoreUp() == MAX_SCORE) {
@@ -221,6 +261,7 @@ int main() {
                 std::cout << "    p2: " << paddleRight.getScore() << std::endl;
             } else if (ball.getRect().getGlobalBounds().left + ball.getRect().getGlobalBounds().width
                            >= window.getSize().x) {
+                soundScore.play();
                 paddleLeft.setLoser(false);
                 paddleRight.setLoser();
                 if (paddleLeft.scoreUp() == MAX_SCORE) {
@@ -241,6 +282,7 @@ int main() {
             // ------
             window.clear();
 
+            window.draw(virtualWindow);
             window.draw(scoreTextLeft);
             window.draw(scoreTextRight);
 
@@ -271,6 +313,7 @@ int main() {
 
             window.clear();
 
+            window.draw(virtualWindow);
             window.draw(scoreTextLeft);
             window.draw(scoreTextRight);
             window.draw(gameoverText);

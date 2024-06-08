@@ -7,9 +7,10 @@ float randVerticalSpeed() {
     // seed a random number generator
     std::mt19937 gen(rd());
     // define a range for the numbers
-    std::uniform_int_distribution dist(0, 500);
+    std::uniform_int_distribution dist(100, 700);
     // generate a random number
     return dist(gen);
+    // return 1 / pow(1 - dist(gen), 1 / 1.5);
 }
 
 Ball::Ball(const sf::RenderWindow& window) {
@@ -22,11 +23,13 @@ Ball::Ball(const sf::RenderWindow& window) {
     _rect.setPosition(sf::Vector2f(window.getSize().x / 2.f, window.getSize().y / 2.f));
 }
 
-void Ball::move(const float dt) {
+void Ball::move(const float dt, sf::Sound& sound) {
     _rect.move(_dx * dt, _dy * dt);
     if (_rect.getGlobalBounds().top <= 0
-            || _rect.getGlobalBounds().top + _rect.getGlobalBounds().height >= 720.f)
+            || _rect.getGlobalBounds().top + _rect.getGlobalBounds().height >= 720.f) {
         _dy *= -1;
+        sound.play();
+    }
 }
 
 void Ball::draw(sf::RenderWindow& window) const {
