@@ -36,3 +36,5 @@ cmake-build-debug
 cmake-build-release
 cmake-build-release-mingw
 .idea
+
+!pong-from-wish.exe
